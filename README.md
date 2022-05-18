@@ -1,1 +1,1 @@
-# terraform-orka-provider
+# terraform-provider-orka

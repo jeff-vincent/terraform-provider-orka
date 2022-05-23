@@ -1,0 +1,6 @@
+make: Entering directory `/Users/jeff/terraform-provider-orka'
+go build -o terraform-provider-orka
+mkdir -p ~/.terraform.d/plugins/macstadium.com/edu/orka/0.2/darwin_amd64
+mv terraform-provider-orka ~/.terraform.d/plugins/macstadium.com/edu/orka/0.2/darwin_amd64
+make: Leaving directory `/Users/jeff/terraform-provider-orka'
+ 

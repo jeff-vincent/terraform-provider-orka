@@ -28,7 +28,7 @@ func Provider() *schema.Provider {
 				Sensitive:   true,
 				DefaultFunc: schema.EnvDefaultFunc("ORKA_PASSWORD", nil),
 			},
-			"licesnse-key": {
+			"license_key": {
 				Type:        schema.TypeString,
 				Optional:    true,
 				Sensitive:   true,

@@ -47,3 +47,28 @@ func dataSourceVMsRead(ctx context.Context, d *schema.ResourceData, m interface{
 
 	return diags
 }
+
+// Need to flatten...
+// func flattenVMsItemsData(orderItems *[]orka.GetVMs) []interface{} {
+// 	if orderItems != nil {
+// 		ois := make([]interface{}, len(*orderItems), len(*orderItems))
+
+// 		for i, orderItem := range *orderItems {
+// 			oi := make(map[string]interface{})
+
+// 			oi["coffee_id"] = orderItem.Coffee.ID
+// 			oi["coffee_name"] = orderItem.Coffee.Name
+// 			oi["coffee_teaser"] = orderItem.Coffee.Teaser
+// 			oi["coffee_description"] = orderItem.Coffee.Description
+// 			oi["coffee_price"] = orderItem.Coffee.Price
+// 			oi["coffee_image"] = orderItem.Coffee.Image
+// 			oi["quantity"] = orderItem.Quantity
+
+// 			ois[i] = oi
+// 		}
+
+// 		return ois
+// 	}
+
+// 	return make([]interface{}, 0)
+// }

@@ -7,7 +7,9 @@ terraform {
 }
 
 provider "orka" {
-  email = "email@email.com"
-  password = "password"
-  license_key = "<YOUR_KEY>"
+
+}
+
+data "orka_vms" "vms" {
+
 }

@@ -12,23 +12,23 @@ import (
 func Provider() *schema.Provider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
-			"host": {
+			"host": &schema.Schema{
 				Type:        schema.TypeString,
-				Optional:    true,
+				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc("ORKA_HOST", nil),
 			},
-			"email": {
+			"email": &schema.Schema{
 				Type:        schema.TypeString,
-				Optional:    true,
+				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc("ORKA_EMAIL", nil),
 			},
-			"password": {
+			"password": &schema.Schema{
 				Type:        schema.TypeString,
-				Optional:    true,
+				Required:    true,
 				Sensitive:   true,
 				DefaultFunc: schema.EnvDefaultFunc("ORKA_PASSWORD", nil),
 			},
-			"license_key": {
+			"license_key": &schema.Schema{
 				Type:        schema.TypeString,
 				Optional:    true,
 				Sensitive:   true,

@@ -1,3 +1,4 @@
+make --dry-run --always-make --keep-going --print-directory
 make: Entering directory `/Users/jeff/terraform-provider-orka'
 go build -o terraform-provider-orka
 mkdir -p ~/.terraform.d/plugins/macstadium.com/edu/orka/0.2/darwin_amd64

@@ -13,20 +13,20 @@ func dataSourceVMs() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceVMsRead,
 		Schema: map[string]*schema.Schema{
-			"message": {
+			"message": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"help": {
-				Type:     schema.TypeString,
+			"help": &schema.Schema{
+				Type:     schema.TypeMap,
 				Computed: true,
 			},
-			"errors": {
-				Type:     schema.TypeList,
+			"errors": &schema.Schema{
+				Type:     schema.TypeMap,
 				Computed: true,
 			},
-			"virtual_machine_resources": {
-				Type:     schema.TypeList,
+			"virtual_machine_resources": &schema.Schema{
+				Type:     schema.TypeMap,
 				Computed: true,
 			},
 		},

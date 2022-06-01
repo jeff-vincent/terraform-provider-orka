@@ -2,7 +2,6 @@ package orka
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -43,7 +42,10 @@ func dataSourceVMsRead(ctx context.Context, d *schema.ResourceData, m interface{
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	fmt.Println(vms)
+
+	if err := d.Set("virtual_machine_resources", vms.VirtualMachineResources); err != nil {
+		return diag.FromErr(err)
+	}
 
 	return diags
 }
@@ -72,3 +74,10 @@ func dataSourceVMsRead(ctx context.Context, d *schema.ResourceData, m interface{
 
 // 	return make([]interface{}, 0)
 // }
+
+// map of strings with the described limitations.
+
+// Description: "Metadata associated with the client, in the form of an object with string values (" +
+// 	"max 255 chars). Maximum of 10 metadata properties allowed. Field names (" +
+// 	"max 255 chars) are alphanumeric and may only include the following special characters: :," +
+// 	"-+=_*?\"/\\()<>@ [Tab] [Space]",

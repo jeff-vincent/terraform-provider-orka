@@ -99,6 +99,8 @@ github.com/hashicorp/yamux v0.0.0-20181012175058-2f1d1f20f75d h1:kJCB4vdITiW1eC1
 github.com/hashicorp/yamux v0.0.0-20181012175058-2f1d1f20f75d/go.mod h1:+NfK9FKeTrX5uv1uIXGdwYDTeHna2qgaIlx54MXqjAM=
 github.com/jeff-vincent/orka-client-go v0.0.0-20220521183436-4f8b1ec776d1 h1:NUGZq5rn+z/mJGNrEMCVcnnIEW6dbK7e2MUASyC4TWQ=
 github.com/jeff-vincent/orka-client-go v0.0.0-20220521183436-4f8b1ec776d1/go.mod h1:dGCv07V/6wmKcQQBYvBcZPEbQNSuLKSsrLhUzAzGOIg=
+github.com/jeff-vincent/orka-client-go v0.0.0-20220601235145-23ba563365ef h1:yJHecINT3M8iOnoZjBqHb5a5tdZxWvqoGm2N+UQhipE=
+github.com/jeff-vincent/orka-client-go v0.0.0-20220601235145-23ba563365ef/go.mod h1:dGCv07V/6wmKcQQBYvBcZPEbQNSuLKSsrLhUzAzGOIg=
 github.com/jhump/protoreflect v1.6.0 h1:h5jfMVslIg6l29nsMs0D8Wj17RDVdNYti0vDN/PZZoE=
 github.com/jhump/protoreflect v1.6.0/go.mod h1:eaTn3RZAmMBcV0fifFvlm6VHNz3wSkYyXYWUh7ymB74=
 github.com/kr/pretty v0.1.0 h1:L/CwN0zerZDmRFUapSPitk6f+Q3+0za1rQkzVuMiMFI=

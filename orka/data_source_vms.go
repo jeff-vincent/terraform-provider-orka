@@ -12,18 +12,18 @@ func dataSourceVMs() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceVMsRead,
 		Schema: map[string]*schema.Schema{
-			"message": &schema.Schema{
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"help": &schema.Schema{
-				Type:     schema.TypeMap,
-				Computed: true,
-			},
-			"errors": &schema.Schema{
-				Type:     schema.TypeMap,
-				Computed: true,
-			},
+			// "message": &schema.Schema{
+			// 	Type:     schema.TypeString,
+			// 	Computed: true,
+			// },
+			// "help": &schema.Schema{
+			// 	Type:     schema.TypeMap,
+			// 	Computed: true,
+			// },
+			// "errors": &schema.Schema{
+			// 	Type:     schema.TypeMap,
+			// 	Computed: true,
+			// },
 			"virtual_machine_resources": &schema.Schema{
 				Type:     schema.TypeList,
 				Computed: true,
@@ -74,6 +74,7 @@ func dataSourceVMsRead(ctx context.Context, d *schema.ResourceData, m interface{
 	if err := d.Set("virtual_machine_resources", vmrs); err != nil {
 		return diag.FromErr(err)
 	}
+	d.SetId("1")
 
 	return diags
 }

@@ -2,7 +2,6 @@ package orka
 
 import (
 	"context"
-	"encoding/json"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -26,8 +25,20 @@ func dataSourceVMs() *schema.Resource {
 				Computed: true,
 			},
 			"virtual_machine_resources": &schema.Schema{
-				Type:     schema.TypeMap,
+				Type:     schema.TypeList,
 				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"vm_owner": &schema.Schema{
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"base_image": &schema.Schema{
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 		},
 	}
@@ -44,18 +55,25 @@ func dataSourceVMsRead(ctx context.Context, d *schema.ResourceData, m interface{
 		return diag.FromErr(err)
 	}
 
-	r := make(map[string]interface{})
+	vmrs := make([]interface{}, len(vms.VirtualMachineResources))
 
-	data, _ := json.Marshal(vms)
-	rm := json.Unmarshal(data, &r)
+	for i, vmr := range vms.VirtualMachineResources {
+		vmri := make(map[string]interface{})
 
-	if err := d.Set("virtual_machine_resources", rm); err != nil {
-		return diag.FromErr(err)
+		if vmr.VMDeploymentStatus == "Deployed" {
+			vmri["vm_owner"] = vmr.Status[0].Owner
+			vmri["base_image"] = vmr.Status[0].Image
+		}
+		if vmr.VMDeploymentStatus == "Not Deployed" {
+			vmri["vm_owner"] = vmr.Owner
+			vmri["base_image"] = vmr.Image
+		}
+		vmrs[i] = vmri
 	}
 
-	// if err := d.Set("help", vms.Help); err != nil {
-	// 	return diag.FromErr(err)
-	// }
+	if err := d.Set("virtual_machine_resources", vmrs); err != nil {
+		return diag.FromErr(err)
+	}
 
 	return diags
 }

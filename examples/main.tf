@@ -14,6 +14,6 @@ data "orka_vms" "vms" {
 
 }
 
-output "vm_stuff" {
+output "vm_resources" {
   value = data.orka_vms.vms
 }

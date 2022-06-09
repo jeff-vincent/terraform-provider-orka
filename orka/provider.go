@@ -35,7 +35,9 @@ func Provider() *schema.Provider {
 				DefaultFunc: schema.EnvDefaultFunc("ORKA_LICENSE_KEY", nil),
 			},
 		},
-		ResourcesMap: map[string]*schema.Resource{},
+		ResourcesMap: map[string]*schema.Resource{
+			"orka_vms": resourceVM(),
+		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"orka_vms": dataSourceVMs(),
 		},

@@ -8,15 +8,40 @@ import (
 	"github.com/jeff-vincent/orka-client-go"
 )
 
-func dataSourceVMs() *schema.Resource {
+func resourceVM() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: dataSourceVMsRead,
+		CreateContext: resourceVMCreate,
+		ReadContext:   resourceVMRead,
+		UpdateContext: resourceVMCreate,
+		DeleteContext: resourceVMCreate,
 		Schema: map[string]*schema.Schema{
-			"virtual_machine_resources": &schema.Schema{
-				Type:     schema.TypeList,
+			"last_updated": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
 				Computed: true,
+			},
+			"vms": &schema.Schema{
+				Type:     schema.TypeList,
+				MaxItems: 1,
+				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"orka_vm_name": &schema.Schema{
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"orka_base_image": &schema.Schema{
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"orka_cpu_core": &schema.Schema{
+							Type:     schema.TypeInt,
+							Required: true,
+						},
+						"vcpu_count": &schema.Schema{
+							Type:     schema.TypeInt,
+							Required: true,
+						},
 						"deployment_status": &schema.Schema{
 							Type:     schema.TypeString,
 							Computed: true,
@@ -140,13 +165,32 @@ func dataSourceVMs() *schema.Resource {
 	}
 }
 
-func dataSourceVMsRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceVMCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*orka.Client)
 
+	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	id := "1"
-	d.SetId(id)
+	// vm := d.Get("vm")
+	// vm_data := vm[""]
+
+	_, err := c.CreateVM()
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("1")
+
+	resourceVMRead(ctx, d, m)
+
+	return diags
+}
+
+func resourceVMRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	c := m.(*orka.Client)
+
+	// Warning or errors can be collected in a slice type
+	var diags diag.Diagnostics
 
 	vms, err := c.GetVMs()
 	if err != nil {
@@ -207,9 +251,98 @@ func dataSourceVMsRead(ctx context.Context, d *schema.ResourceData, m interface{
 		vmrs[i] = vmri
 	}
 
-	if err := d.Set("virtual_machine_resources", vmrs); err != nil {
+	if err := d.Set("vms", vmrs); err != nil {
 		return diag.FromErr(err)
 	}
 
 	return diags
 }
+
+// func flattenVMItems(orka.VMs) map[string]interface{} {
+// 	return nil
+// }
+
+// func resourceVMUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+// 	c := m.(*hc.Client)
+
+// 	orderID := d.Id()
+
+// 	if d.HasChange("items") {
+// 		items := d.Get("items").([]interface{})
+// 		ois := []hc.OrderItem{}
+
+// 		for _, item := range items {
+// 			i := item.(map[string]interface{})
+
+// 			co := i["coffee"].([]interface{})[0]
+// 			coffee := co.(map[string]interface{})
+
+// 			oi := hc.OrderItem{
+// 				Coffee: hc.Coffee{
+// 					ID: coffee["id"].(int),
+// 				},
+// 				Quantity: i["quantity"].(int),
+// 			}
+// 			ois = append(ois, oi)
+// 		}
+
+// 		_, err := c.UpdateOrder(orderID, ois)
+// 		if err != nil {
+// 			return diag.FromErr(err)
+// 		}
+
+// 		d.Set("last_updated", time.Now().Format(time.RFC850))
+// 	}
+
+// 	return resourceOrderRead(ctx, d, m)
+// }
+
+// func resourceVMDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+// 	c := m.(*hc.Client)
+
+// 	// Warning or errors can be collected in a slice type
+// 	var diags diag.Diagnostics
+
+// 	orderID := d.Id()
+
+// 	err := c.DeleteOrder(orderID)
+// 	if err != nil {
+// 		return diag.FromErr(err)
+// 	}
+
+// 	// d.SetId("") is automatically called assuming delete returns no errors, but
+// 	// it is added here for explicitness.
+// 	d.SetId("")
+
+// 	return diags
+// }
+
+// func flattenOrderItems(orderItems *[]hc.OrderItem) []interface{} {
+// 	if orderItems != nil {
+// 		ois := make([]interface{}, len(*orderItems), len(*orderItems))
+
+// 		for i, orderItem := range *orderItems {
+// 			oi := make(map[string]interface{})
+
+// 			oi["coffee"] = flattenCoffee(orderItem.Coffee)
+// 			oi["quantity"] = orderItem.Quantity
+// 			ois[i] = oi
+// 		}
+
+// 		return ois
+// 	}
+
+// 	return make([]interface{}, 0)
+// }
+
+// func flattenCoffee(coffee hc.Coffee) []interface{} {
+// 	c := make(map[string]interface{})
+// 	c["id"] = coffee.ID
+// 	c["name"] = coffee.Name
+// 	c["teaser"] = coffee.Teaser
+// 	c["description"] = coffee.Description
+// 	c["price"] = coffee.Price
+// 	c["image"] = coffee.Image
+
+// 	return []interface{}{c}
+// }

@@ -101,6 +101,8 @@ github.com/jeff-vincent/orka-client-go v0.0.0-20220521183436-4f8b1ec776d1 h1:NUG
 github.com/jeff-vincent/orka-client-go v0.0.0-20220521183436-4f8b1ec776d1/go.mod h1:dGCv07V/6wmKcQQBYvBcZPEbQNSuLKSsrLhUzAzGOIg=
 github.com/jeff-vincent/orka-client-go v0.0.0-20220601235145-23ba563365ef h1:yJHecINT3M8iOnoZjBqHb5a5tdZxWvqoGm2N+UQhipE=
 github.com/jeff-vincent/orka-client-go v0.0.0-20220601235145-23ba563365ef/go.mod h1:dGCv07V/6wmKcQQBYvBcZPEbQNSuLKSsrLhUzAzGOIg=
+github.com/jeff-vincent/orka-client-go v0.0.0-20220611044516-f44bba03458c h1:RJ8m506oTM1lGDSrX1CVIpFjDdypQotF6TiJIm5pCe4=
+github.com/jeff-vincent/orka-client-go v0.0.0-20220611044516-f44bba03458c/go.mod h1:dGCv07V/6wmKcQQBYvBcZPEbQNSuLKSsrLhUzAzGOIg=
 github.com/jhump/protoreflect v1.6.0 h1:h5jfMVslIg6l29nsMs0D8Wj17RDVdNYti0vDN/PZZoE=
 github.com/jhump/protoreflect v1.6.0/go.mod h1:eaTn3RZAmMBcV0fifFvlm6VHNz3wSkYyXYWUh7ymB74=
 github.com/kr/pretty v0.1.0 h1:L/CwN0zerZDmRFUapSPitk6f+Q3+0za1rQkzVuMiMFI=

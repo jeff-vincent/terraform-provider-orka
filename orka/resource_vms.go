@@ -2,6 +2,8 @@ package orka
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -171,12 +173,24 @@ func resourceVMCreate(ctx context.Context, d *schema.ResourceData, m interface{}
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	// vm := d.Get("vm")
-	// vm_data := vm[""]
+	vm_name := d.Get("vms.orka_vm_name")
+	// // vm_data := vm[""]
+	// rb, err := json.Marshal(vms)
+	// vm_data := strings.NewReader(string(rb))
 
-	_, err := c.CreateVM()
-	if err != nil {
-		return diag.FromErr(err)
+	vm_string := fmt.Sprintf(`{
+		"orka_vm_name": "%s",
+		"orka_base_image": "bigsur-ssh-git.img",
+		"orka_cpu_core": 6,
+		"vcpu_count": 6
+	}`, vm_name)
+
+	var vm_data = strings.NewReader(vm_string)
+
+	fmt.Println(vm_data)
+	_, errs := c.CreateVM(vm_data)
+	if errs != nil {
+		return diag.FromErr(errs)
 	}
 
 	d.SetId("1")

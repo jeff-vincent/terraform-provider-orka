@@ -4,6 +4,6 @@
 provider "macstadium.com/edu/orka" {
   version = "0.2.0"
   hashes = [
-    "h1:P/WzXzsZZ/KE/kZI9A4CNNghY8AOrE/740klqP7Duiw=",
+    "h1:0VwlG6mUdB8tgLvgfr1C3Cr4U+xfuiOfbe9rj+Qec64=",
   ]
 }

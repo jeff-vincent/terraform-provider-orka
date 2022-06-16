@@ -2,9 +2,11 @@ package orka
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/jeff-vincent/orka-client-go"
@@ -173,22 +175,23 @@ func resourceVMCreate(ctx context.Context, d *schema.ResourceData, m interface{}
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	vm_name := d.Get("vms.orka_vm_name")
-	// // vm_data := vm[""]
-	// rb, err := json.Marshal(vms)
-	// vm_data := strings.NewReader(string(rb))
+	vms := d.Get("vms").([]interface{})
+	rb, _ := json.Marshal(vms[0])
+	vm_data := orka.VMConfig{}
+	err := json.Unmarshal(rb, &vm_data)
 
-	vm_string := fmt.Sprintf(`{
+	if err != nil {
+		tflog.Debug(ctx, string(err.Error()), nil)
+	}
+
+	vm_string := strings.NewReader(fmt.Sprintf(`{
 		"orka_vm_name": "%s",
-		"orka_base_image": "bigsur-ssh-git.img",
-		"orka_cpu_core": 6,
-		"vcpu_count": 6
-	}`, vm_name)
+		"orka_base_image": "%s",
+		"orka_cpu_core": %d,
+		"vcpu_count": %d
+	}`, vm_data.OrkaVMName, vm_data.OrkaBaseImage, vm_data.OrkaCPUCore, vm_data.VcpuCount))
 
-	var vm_data = strings.NewReader(vm_string)
-
-	fmt.Println(vm_data)
-	_, errs := c.CreateVM(vm_data)
+	_, errs := c.CreateVM(vm_string)
 	if errs != nil {
 		return diag.FromErr(errs)
 	}

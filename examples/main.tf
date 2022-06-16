@@ -21,7 +21,7 @@ provider "orka" {
 
 resource "orka_vms" "edu" {
   vms {
-    orka_vm_name = "myorkavm121"
+    orka_vm_name = "myorkavm"
 	  orka_base_image = "bigsur-ssh-git.img"
 	  orka_cpu_core = 3
 	  vcpu_count = 3

@@ -24,9 +24,9 @@ func resourceVM() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-			"vms": &schema.Schema{
+			"vm": &schema.Schema{
 				Type:     schema.TypeList,
-				MaxItems: 1,
+				MaxItems: 10,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -175,27 +175,29 @@ func resourceVMCreate(ctx context.Context, d *schema.ResourceData, m interface{}
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	vms := d.Get("vms").([]interface{})
-	rb, _ := json.Marshal(vms[0])
-	vm_data := orka.VMConfig{}
-	err := json.Unmarshal(rb, &vm_data)
+	vms := d.Get("vm").([]interface{})
+	// for loop over vms data
+	for i := range vms {
+		rb, _ := json.Marshal(vms[i])
+		vm_data := orka.VMConfig{}
+		err := json.Unmarshal(rb, &vm_data)
 
-	if err != nil {
-		tflog.Debug(ctx, string(err.Error()), nil)
-	}
+		if err != nil {
+			tflog.Debug(ctx, string(err.Error()), nil)
+		}
 
-	vm_string := strings.NewReader(fmt.Sprintf(`{
+		vm_string := strings.NewReader(fmt.Sprintf(`{
 		"orka_vm_name": "%s",
 		"orka_base_image": "%s",
 		"orka_cpu_core": %d,
 		"vcpu_count": %d
 	}`, vm_data.OrkaVMName, vm_data.OrkaBaseImage, vm_data.OrkaCPUCore, vm_data.VcpuCount))
 
-	_, errs := c.CreateVM(vm_string)
-	if errs != nil {
-		return diag.FromErr(errs)
+		_, errs := c.CreateVM(vm_string)
+		if errs != nil {
+			return diag.FromErr(errs)
+		}
 	}
-
 	d.SetId("1")
 
 	resourceVMRead(ctx, d, m)
@@ -268,7 +270,7 @@ func resourceVMRead(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		vmrs[i] = vmri
 	}
 
-	if err := d.Set("vms", vmrs); err != nil {
+	if err := d.Set("vm", vmrs); err != nil {
 		return diag.FromErr(err)
 	}
 

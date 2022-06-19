@@ -36,7 +36,7 @@ func Provider() *schema.Provider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"orka_vms": resourceVM(),
+			"vm_configs": resourceVMConfigs(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"orka_vms": dataSourceVMs(),

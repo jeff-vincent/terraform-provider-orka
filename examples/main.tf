@@ -19,20 +19,20 @@ provider "orka" {
 # }
 
 
-resource "orka_vms" "edu" {
-  vm {
+resource "vm_configs" "edu" {
+  vm_config {
     orka_vm_name = "myorkavm"
 	  orka_base_image = "bigsur-ssh-git.img"
 	  orka_cpu_core = 3
 	  vcpu_count = 3
   }
-  vm {
+  vm_config {
     orka_vm_name = "myorkavm1"
 	  orka_base_image = "bigsur-ssh-git.img"
 	  orka_cpu_core = 3
 	  vcpu_count = 3
   }
-  vm {
+  vm_config {
     orka_vm_name = "myorkavm11"
 	  orka_base_image = "bigsur-ssh-git.img"
 	  orka_cpu_core = 3
@@ -40,6 +40,11 @@ resource "orka_vms" "edu" {
   }
 }
 
-output "edu_vms" {
-  value = orka_vms.edu
+output "vm_configs" {
+  value = orka_vm_configs.edu
 }
+
+resource "deploy_vm_configs" {
+
+}
+
